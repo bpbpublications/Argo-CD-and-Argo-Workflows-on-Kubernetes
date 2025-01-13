@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: webhook-zap-proxy-sensor
+spec:
+  template:
+    serviceAccountName: manage-workflow-sa
+  dependencies:
+    - name: workflow-depends-on-this-trigger
+      eventSourceName: webhook-zap-proxy
+      eventName: webhookevent
+  triggers:
+    - template:
+        name: webhook-workflow-trigger
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: webhook-
+              spec:
+                entrypoint: zap-scan
+                arguments:
+                  parameters:
+                    - name: target_url
+                      # the value will get overridden by event payload from workflow-depends-on-this-trigger
+                      value: http://example.com
+                templates:
+                - name: zap-scan
+                  inputs:
+                    parameters:
+                      - name: target_url
+                  container:
+                    image: ghcr.io/zaproxy/zaproxy:stable
+                    command: [zap-baseline.py]
+                    args: ["-t", "{{inputs.parameters.target_url}}"]
+          parameters:
+            - src:
+                dependencyName: workflow-depends-on-this-trigger
+                dataKey: body.target_url
+              dest: spec.arguments.parameters.0.value

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: webhook-zap-proxy
+spec:
+  service:
+    ports:
+      - port: 14000
+        targetPort: 14000
+  webhook:
+    # event-source can run multiple HTTP servers. Simply define a unique port to start a new HTTP server
+    webhookevent:
+      # port to run HTTP server on
+      port: "14000"
+      # endpoint to listen to
+      endpoint: /argoeventswebhook
+      # HTTP request method to allow. In this case, only POST requests are accepted
+      method: POST

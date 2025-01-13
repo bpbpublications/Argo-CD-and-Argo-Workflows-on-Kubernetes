@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: echo-service
+  namespace: argocd
+spec:
+  destination:
+    namespace: echo-service
+    server: "https://192.168.2.43:55382"
+  project: default
+  source:
+    path: echo-service-mainfest
+    repoURL: "https://github.com/nahidupa/echo-service-manifest.git"
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

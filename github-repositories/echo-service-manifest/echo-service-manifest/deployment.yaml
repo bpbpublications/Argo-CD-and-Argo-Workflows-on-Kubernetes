@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-service-deployment
+  labels:
+    app: echo-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echo-service
+  template:
+    metadata:
+      labels:
+        app: echo-service
+    spec:
+      containers:
+      - name: echo-service-container
+        image: nahidupa/echo-service
+        ports:
+        - containerPort: 80

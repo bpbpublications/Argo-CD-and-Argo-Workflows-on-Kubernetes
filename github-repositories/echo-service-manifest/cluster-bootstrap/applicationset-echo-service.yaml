@@ -1,0 +1,48 @@
+# ApplicationSet manifest for the echo-service application with clusters generator
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: echo-service
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          argocd.argoproj.io/secret-type: cluster
+          # argocd.argoproj.io/cluster-name: !an-ignored-cluster
+        # unMatchLabels:
+        #   argocd.argoproj.io/cluster-name: an-ignored-cluster
+        # notMatchLabels:
+        #   argocd.argoproj.io/cluster-name: an-ignored-cluster
+        # ignoreLabels:
+        #   argocd.argoproj.io/cluster-name: in-cluster
+  template:
+    metadata:
+      name: '{{.name}}-echo-service'
+    spec:
+      project: "default"
+      source:
+        repoURL: "https://github.com/nahidupa/echo-service-manifest.git"
+        targetRevision: HEAD
+        path: echo-service-manifest
+      destination:
+        server: '{{.server}}'
+        namespace: echo-service
+# sync policy to create namespace if not exists
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - Validate=false
+        - Prune=true
+        - SelfHeal=true
+        - ApplyOutOfSyncOnly=true
+        - Force=true
+        - Retry=true
+        - RetryTimeout=60
+        - RetryBackoff=1
+

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-rollouts-bluegreen-demo-preview
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: 100M
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/app-root: /
+spec:
+  namespace: echo-service-rollouts
+  rules:
+    - host: blue-green-preview.dev.argobook.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argo-rollouts-bluegreen-demo-preview
+                port:
+                  number: 80

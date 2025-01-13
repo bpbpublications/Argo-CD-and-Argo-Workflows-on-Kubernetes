@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: argo-rollouts-bluegreen-demo-preview
+  labels:
+    app: argo-rollouts-bluegreen-demo
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: argo-rollouts-bluegreen-demo

@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: argo-rollouts-bluegreen-demo
+  labels:
+    app: argo-rollouts-bluegreen-demo
+spec:
+  namespace: echo-service-rollouts
+  replicas: 3
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: argo-rollouts-bluegreen-demo
+  template:
+    metadata:
+      labels:
+        app: argo-rollouts-bluegreen-demo
+    spec:
+      containers:
+      - name: argo-rollouts-bluegreen-demo
+        image: argoproj/rollouts-demo:blue
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
+  strategy:
+    blueGreen:
+      autoPromotionEnabled: false
+      activeService: argo-rollouts-bluegreen-demo
+      previewService: argo-rollouts-bluegreen-demo-preview

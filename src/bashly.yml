@@ -1,0 +1,314 @@
+name: miniargo
+help: Mini Argo is a command line helper script to deploy Argo Projects quickly.
+version: 0.1.0
+
+
+commands:
+- name: argocd-quick-start
+  alias: aq
+  help: Argo CD
+
+- name: argorollouts-quick-start
+  alias: arq
+  help: Argo Rollouts
+  commands:
+    - name: install-argo-rollouts
+      help: Install argo rollouts
+
+- name: argoworkflow-quick-start
+  alias: awq
+  help: Argo Workflow
+
+- name: argoevents-quick-start
+  alias: aeq
+  help: Argo Events
+
+- name: add-cluster-to-argocd
+  help: Add cluster to Argo CD
+  args:
+  - name: cluster-name
+    help: cluster name
+    required: true
+
+- name: install
+  alias: i
+  help: Install the given items in miniqube
+  commands:
+  - name: argocd
+    help: Install Argo CD
+  - name: argo-workflow
+    help: Install Argo wrokflow
+  - name: prometheous
+    help: Install Prometheous
+  - name: grafana
+    help: Install Grafana
+  - name: argo-rollouts
+    help: Install argo-rollouts
+  - name: argo-events
+    help: Install argo-events
+  - name: istio
+    help: Install istio
+  - name: istio-prometheus-addon
+    help: Install istio Prometheus addon
+
+
+- name: configure
+  alias: c
+  help: Configure Argo CD Notifications
+  commands:
+    - name: argocd-notifications
+      help: Configure Argo CD Notifications
+
+- name: start
+  alias: s
+  help: Start a Cluster
+  commands:
+  - name: argocd-cluster
+    help: Start Argo CD Cluster
+    args:
+    - name: nodes
+      help: nodes in the cluster
+      required: false
+      default: "1"
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "1800"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+
+  - name: argo-events-cluster
+    help: Start argo-events Cluster
+    args:
+    - name: nodes
+      help: nodes in the cluster
+      required: false
+      default: "1"
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "2048"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: argo-rollouts-cluster
+    help: Start argo-rollouts Cluster
+    args:
+    - name: nodes
+      help: nodes in the cluster
+      required: false
+      default: "1"
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "4096"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: argoworkflow-cluster
+    help: Start Argo Workflow Cluster
+    args:
+    - name: nodes
+      help: nodes in the cluster
+      required: false
+      default: "2"
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "2096"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: apps-cluster
+    alias: sappsc
+    help: Start Argo CD Apps Cluster
+    args:
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "2096"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: dev-cluster
+    help: Start dev Cluster
+    args:
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "1800"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: prod-cluster
+    help: Start prod Cluster
+    args:
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "1800"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+  - name: staging-cluster
+    alias: sstgc
+    help: Start Argo CD Staging Cluster
+    args:
+    - name: memory
+      help: memory of the minikube cluster
+      required: false
+      default: "2096"
+    - name: cpu
+      help: cpu of the minikube cluster
+      required: false
+      default: "2"
+    - name: kubernetes-version
+      help: kubernetes version of the minikube cluster
+      required: false
+      default: "1.27.4"
+    - name: driver
+      help: driver of the minikube cluster
+      required: false
+      default: "docker"
+
+- name: delete
+  alias: d
+  help: Delete a Cluster
+  commands:
+  - name: argocd-cluster
+    alias: da
+    help: Delete Argo CD cluster
+  - name: apps-cluster
+    alias: dappsc
+    help: Delete Argo CD Apps Cluster
+  - name: argo-rollouts-cluster
+    help: Delete Argo RolloutsCluster
+  - name: argo-events-cluster
+    help: Delete Argo Argo Events Cluster
+  - name: argoworkflow-cluster
+    help: Delete Argo Argo Workflow Cluster
+  - name: dev-cluster
+    help: Delete Dev Cluster
+
+- name: expose
+  alias: e
+  help: Expose a service
+  commands:
+  - name: argocd-server
+    alias: eas
+    help: Expose Argo CD Server
+  - name: argo-workflow-ui
+    alias: eaw
+    help: Expose Argo workflows UI
+  - name: argo-events
+    help: Expose argo-events
+  - name: argo-rollouts-dashboard
+    help: Expose argo-rollouts dashboard
+
+
+
+- name: create-apps-from-gitrepo
+  alias: cafg
+  help: Create Apps from git repo
+
+- name: delete-minikube-profile
+  alias: dmf
+  help: delete-minikube-profile
+  args:
+  - name: profile
+    help: profile name
+    required: false
+
+- name: get-argocd-user-password
+  help: get-argocd-user-password
+
+- name: setup-github-repository
+  help: setup github repository
+
+- name: chapter-10
+  help: Setup Chapter 10 all command setup
+  commands:
+    - name: step-01-setup-github-repository
+      help: Setup github repository
+    - name: step-02-start-argocd-cluster
+      help: Start Argo CD Cluster
+    - name: step-03-install-argocd
+      help: Install Argo CD
+    - name: step-04-start-dev-cluster
+      help: Start dev Cluster
+    - name: step-05-configure-argocd-with-dev-cluster
+      help: Configure argocd with dev cluster
+    - name: step-06-configure-argorollout-in-dev-cluster
+      help: Configure argorollouts in dev cluster
+    - name: step-07-deploy-echo-service-with-argo-rollouts
+      help: Deploy echo service with argo rollouts
+    - name: step-08-commit-and-push-echo-service-manifest
+      help: Commit and push echo service manifest
+    - name: step-09-configure-argo-notifications
+      help: Configure argo notifications
+    - name: step-10-cluster-bootstrap
+      help: Cluster bootstrap with Argo CD

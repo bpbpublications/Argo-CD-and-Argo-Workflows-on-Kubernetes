@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # Build options/parameters to use with `kustomize build` (optional)
+  kustomize.buildOptions: --load_restrictor none
+  kustomize.version.v3.0.3: /usr/local/bin/kustomize/kustomize_3.0.3
+  kustomize.version.v3.5.4: /usr/local/bin/kustomize/kustomize_3.5.4

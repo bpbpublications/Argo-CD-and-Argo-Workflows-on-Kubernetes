@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: echo-service
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: dev-cluster
+        url: https://1.2.3.4
+      - cluster: prod-cluster
+        url: https://9.8.7.6
+  template:
+    metadata:
+      name: '{{cluster}}-echo-service'
+    spec:
+      project: my-project
+      source:
+        repoURL: ECHO_SERVICE_REPO_URL
+        targetRevision: HEAD
+        path: deployment/{{cluster}}
+      destination:
+        server: '{{url}}'
+        namespace: echo-service
